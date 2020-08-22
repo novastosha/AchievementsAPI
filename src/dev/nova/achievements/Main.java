@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -58,12 +59,22 @@ public class Main extends JavaPlugin {
                 }
             }
         },this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onClick(InventoryClickEvent event){
+                if(event.getClickedInventory().getName().equalsIgnoreCase("§7Achievements")){
+                    event.setCancelled(true);
+                }else{
+                    return;
+                }
+            }
+            },this);
         this.saveConfig();
 
     }
 
-    public static float calculatePercentage(ArrayList<String> unlockedList, int playersJoined){
-        float percentage = (unlockedList.size() * 100 / playersJoined);
+    public static double calculatePercentage(ArrayList<String> unlockedList, int playersJoined){
+        double percentage = ((double) unlockedList.size() * 100 / (double) playersJoined);
         return percentage;
     }
 
