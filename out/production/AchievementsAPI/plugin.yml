@@ -1,0 +1,8 @@
+name: AchievementsAPI
+author: novastosha
+main: dev.nova.achievements.Main
+version: 1.0
+commands:
+    achievements:
+      description: The main command
+
