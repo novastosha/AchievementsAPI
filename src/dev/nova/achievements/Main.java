@@ -4,6 +4,10 @@ import dev.nova.achievements.config.AchievementConfigManager;
 import dev.nova.achievements.exceptions.AchievementExistsException;
 import dev.nova.achievements.exceptions.AchievementFailedToLoadException;
 import dev.nova.achievements.gui.AchievementsGUI;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -80,8 +84,9 @@ public class Main extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player = (Player) sender;
         if(command.getName().equalsIgnoreCase("achievements")){
-            AchievementsGUI.openGUI((Player) sender);
+            AchievementsGUI.openGUI(player);
         }
         return true;
     }

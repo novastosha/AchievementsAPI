@@ -2,6 +2,7 @@ package dev.nova.achievements.gui;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 import dev.nova.achievements.Achievement;
+import dev.nova.achievements.AchievementsAPI;
 import dev.nova.achievements.Main;
 import dev.nova.achievements.config.AchievementConfigManager;
 import dev.nova.achievements.exceptions.AchievementFailedToLoadException;
@@ -29,10 +30,13 @@ public class AchievementsGUI {
                 try {
                     AchievementConfigManager.loadAchievementConfig(file);
                     Achievement achievement = new Achievement(AchievementConfigManager.getConfigFile());
+                    AchievementsAPI.grantAchievement(player,achievement);
                     ArrayList<String> lore = achievement.getDescription();
                     lore.add("   ");
                     lore.add(ChatColor.GRAY+"Unlocked by: "+Main.calculatePercentage(achievement.getUnlockedList(),plugin.getConfig().getInt("players-joined"))+"%");
+                    lore.add("      ");
                     if(!achievement.isUnlockedBy(player)){
+                        lore.add(ChatColor.RED+"Achievement Locked!");
                         ItemStack item = new ItemStack(Material.REDSTONE);
                         ItemMeta itemMeta = item.getItemMeta();
                         itemMeta.setLore(lore);
@@ -41,6 +45,7 @@ public class AchievementsGUI {
                         inv.setItem(inSlot,item);
                         inSlot++;
                     }else{
+                        lore.add(ChatColor.GREEN+"Achievement Unlocked!");
                         ItemStack item = new ItemStack(Material.EMERALD);
                         ItemMeta itemMeta = item.getItemMeta();
                         itemMeta.setLore(lore);

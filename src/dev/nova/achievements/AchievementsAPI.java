@@ -4,6 +4,10 @@ import com.mysql.fabric.xmlrpc.base.Array;
 import dev.nova.achievements.config.AchievementConfigManager;
 import dev.nova.achievements.exceptions.AchievementExistsException;
 import dev.nova.achievements.exceptions.AchievementFailedToLoadException;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,13 +47,15 @@ public class AchievementsAPI {
         }
     }
     public static void grantAchievement(Player player,Achievement achievement){
-        player.sendMessage(ChatColor.GRAY+"Achievement get: "+ChatColor.GREEN+achievement.getDisplayName());
+        player.sendMessage(ChatColor.YELLOW+"§kA§r"+ChatColor.GRAY+"- Achievement get: "+ChatColor.YELLOW+achievement.getDisplayName()+ChatColor.GRAY+" -"+ChatColor.YELLOW+" §kA");
         ArrayList<String> playersUnlocked = (ArrayList<String>) achievement.getConfiguration().get("players-unlocked");
         if(playersUnlocked == null){
             playersUnlocked = new ArrayList<>();
         }
-        playersUnlocked.add(player.getUniqueId().toString());
-        achievement.getConfiguration().set("players-unlocked",playersUnlocked);
-        achievement.saveConfig();
+        if(!playersUnlocked.contains(player.getUniqueId().toString())) {
+            playersUnlocked.add(player.getUniqueId().toString());
+            achievement.getConfiguration().set("players-unlocked", playersUnlocked);
+            achievement.saveConfig();
+        }
     }
 }
